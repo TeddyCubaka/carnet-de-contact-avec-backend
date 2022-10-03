@@ -2,8 +2,6 @@ const express = require("express")
 const mysql = require('mysql')
 const authorization = require('./db')
 
-console.log(authorization);
-
 const app = express();
 app.use(express.json())
 
@@ -23,7 +21,7 @@ app.get('/api/contacts' , (req, res, next)=>{
 })
 
 app.post('/api/create_contact' , (req, res, next)=>{
-    const donnee = "insert into contact (name, second_name, bio, groupe) values ?"
+    const donnee = "insert into contact (name, secondName, bio, groupe) values ?"
     const values = [[req.body.name, req.body.second_name, req.body.bio, req.body.groupe]]
     console.log(values);
     db.query(donnee, [values] , function (err, result){
@@ -32,6 +30,7 @@ app.post('/api/create_contact' , (req, res, next)=>{
     })
     res.send({message : "reçu !"}) 
 })
+
 
 
 
