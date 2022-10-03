@@ -1,16 +1,13 @@
 const express = require("express")
 const mysql = require('mysql')
+const authorization = require('./db')
+
+console.log(authorization);
+
 const app = express();
 app.use(express.json())
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Birh-Cub_04",
-    database: "mika"
-})
-
-const data = {};
+const db = mysql.createConnection(authorization)
 
 db.connect(function(err) {
     if (err) throw err;
