@@ -1,7 +1,7 @@
 const express = require("express")
 const mysql = require('mysql')
 const authorization = require('./db')
-const cors = require("cors")
+const cors = require("cors");
 
 const app = express();
 app.use(express.json())
@@ -30,15 +30,25 @@ app.get('/api/contacts' , (req, res, next)=>{
     });
 })
 
-app.post('/api/create_contact' , (req, res, next)=>{
-    const donnee = "insert into contact (name, secondName, bio, groupe) values ?"
-    const values = [[req.body.name, req.body.second_name, req.body.bio, req.body.groupe]]
+app.post('/api/contacts' , (req, res, next)=>{
+    const donnee = "insert into contact (name, secondName, bio, groupe, imageUrl) values ?"
+    const values = []
+    if(req.body.name !== "" && req.body.secondName !== ""){
+        values.push([req.body.name, req.body.secondName, req.body.bio, req.body.groupe, req.body.imageUrl])
+    }
     console.log(values);
     db.query(donnee, [values] , function (err, result){
         if(err) throw err;
         console.log("One element inserted !" + result.insertId)
     })
     res.send({message : "reçu !"}) 
+})
+
+app.post('/api/contact', (req, res, next)=>{
+    db.query(`select * from contact where id = ${req.body.id}` , (err, response) => {
+        if(err) throw err;
+        res.send(response)
+    })
 })
 
 
